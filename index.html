@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priti's Kitchen - Authentic Odia Cuisine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #D4380D;
+            --secondary: #1A1A1A;
+            --accent: #F4A024;
+            --background: #FFF8F0;
+            --text-primary: #2D2D2D;
+            --text-light: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-icon {
+            font-size: 4rem;
+            color: var(--accent);
+            animation: pulse 1s infinite;
+        }
+
+        .loader-text {
+            font-family: 'Sacramento', cursive;
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--secondary);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.7rem 5%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Sacramento', cursive;
+            font-size: 2rem;
+            color: var(--accent);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-btn, .cart-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .search-btn:hover, .cart-btn:hover {
+            color: var(--accent);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(26, 26, 26, 0.6), rgba(26, 26, 26, 0.4)),
+                        url('https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(26,26,26,0.3) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+            position: relative;
+        }
+
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero .tagline {
+            font-family: 'Sacramento', cursive;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 56, 13, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-outline:hover {
+            background: var(--text-light);
+            color: var(--secondary);
+        }
+
+        /* Floating food elements */
+        .floating-food {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-food:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-food:nth-child(2) { top: 30%; right: 15%; animation-delay: 1s; }
+        .floating-food:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 2s; }
+        .floating-food:nth-child(4) { bottom: 35%; right: 10%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--primary);
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 0 auto 3rem;
+            border-radius: 2px;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--text-light);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--text-light);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 20px 20px 0 var(--primary);
+            transition: transform 0.5s;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 4px solid var(--accent);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature h4 {
+            font-size: 1rem;
+            color: var(--secondary);
+        }
+
+        /* Menu Section */
+        .menu {
+            background: var(--background);
+            position: relative;
+        }
+
+        .menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, var(--text-light) 0%, transparent 100%);
+            z-index: 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-card {
+            background: var(--text-light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .menu-img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .menu-badges {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .badge-popular {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+
+        .badge-veg {
+            background: #228B22;
+            color: white;
+        }
+
+        .badge-spicy {
+            background: #DC143C;
+            color: white;
+        }
+
+        .menu-card-content {
+            padding: 24px;
+        }
+
+        .menu-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .menu-card .dish-type {
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .menu-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price::before {
+            content: '₹';
+        }
+
+        .add-btn {
+            background: var(--secondary);
+            color: var(--text-light);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-btn:hover {
+            background: var(--primary);
+        }
+
+        .add-btn.added {
+            background: #228B22;
+        }
+
+        /* Quick View Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--text-light);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-content {
+            padding: 2rem;
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .modal-price::before {
+            content: '₹';
+        }
+
+        .modal-desc {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quantity-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: var(--secondary);
+            color: var(--text-light);
+        }
+
+        .gallery .section-title {
+            color: var(--text-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            height: 250px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.15);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 30px 20px;
+            transform: translateY(100%);
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--background);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--text-light);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .testimonial-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-rating {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--text-light);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+            color: var(--secondary);
+        }
+
+        .contact-item p {
+            color: #666;
+        }
+
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 400px;
+        }
+
+        .map-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: var(--text-light);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .map-overlay i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary) 0%, #b32d0a 100%);
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 2rem auto 0;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: var(--text-light);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-logo {
+            font-family: 'Sacramento', cursive;
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-section h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            color: #888;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-box {
+            background: var(--text-light);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: searchSlide 0.3s ease;
+        }
+
+        @keyframes searchSlide {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid #228B22;
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(212, 56, 13, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: none;
+        }
+
+        .scroll-top.show {
+            display: block;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            background: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--secondary);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.5rem;
+            }
+
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-image::before {
+                display: none;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader-content">
+            <div class="loader-icon">🍛</div>
+            <div class="loader-text">Priti's Kitchen</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Priti'<span>s</span> Kitchen</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="search-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+            <button class="cart-btn" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="floating-food">🍲</div>
+        <div class="floating-food">🍛</div>
+        <div class="floating-food">🥘</div>
+        <div class="floating-food">🍜</div>
+        <div class="hero-content">
+            <p class="tagline">Welcome to Priti's Kitchen</p>
+            <h1>Authentic <span>Odia</span> Flavors</h1>
+            <p>A Culinary Journey Through Odisha</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn">View Menu</a>
+                <a href="#contact" class="btn btn-outline">Order Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number" data-target="8">0</span>
+            <span class="stat-label">Odia Dishes</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="5">0</span>
+            <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="10000">0</span>
+            <span class="stat-label">Happy Customers</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="4.9">0</span>
+            <span class="stat-label">Rating</span>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2 class="section-title">Our Story</h2>
+        <p class="section-subtitle">Traditional recipes, authentic flavors</p>
+        <div class="divider"></div>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=600&q=80" alt="Odia Kitchen">
+            </div>
+            <div class="about-text">
+                <h3>Welcome to Priti's Kitchen</h3>
+                <p>Experience the authentic taste of Odisha at Priti's Kitchen. Our journey began with a simple mission - to bring the traditional flavors of Odia cuisine to your plate, made with love and the finest ingredients.</p>
+                <p>Every dish we prepare carries the rich heritage of Odia cooking, from the soothing Dalma to the delightful Rasabali. Our chef combines age-old recipes with modern presentation to give you an unforgettable dining experience.</p>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🌿</div>
+                        <h4>Fresh Ingredients</h4>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👨‍🍳</div>
+                        <h4>Expert Chefs</h4>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💝</div>
+                        <h4>Made with Love</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <h2 class="section-title">Our Menu</h2>
+        <p class="section-subtitle">Specializing in traditional Odia cuisine</p>
+        <div class="divider"></div>
+
+        <div class="category-filter">
+            <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+            <button class="filter-btn" onclick="filterMenu('veg')">Vegetarian</button>
+            <button class="filter-btn" onclick="filterMenu('nonveg')">Non-Veg</button>
+            <button class="filter-btn" onclick="filterMenu('sweets')">Sweets</button>
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+            <!-- Dalma -->
+            <div class="menu-card" data-category="veg">
+                <div class="menu-img-container">
+                    <span class="badge badge-popular">Popular</span>
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1546833998-877b37c2e5c6?w=500&q=80" alt="Dalma">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🥬 Vegetarian Main</span>
+                    <h3>Dalma</h3>
+                    <p>Traditional lentil curry with mixed vegetables, tempered with ghee and aromatic spices</p>
+                    <div class="menu-card-footer">
+                        <span class="price">120</span>
+                        <button class="add-btn" onclick="addToCart('Dalma', 120, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pakhala Bhata -->
+            <div class="menu-card" data-category="veg">
+                <div class="menu-img-container">
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=500&q=80" alt="Pakhala Bhata">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🥣 Traditional Special</span>
+                    <h3>Pakhala Bhata</h3>
+                    <p>Fermented rice water served with fried potatoes, green chilies, and jaggery</p>
+                    <div class="menu-card-footer">
+                        <span class="price">80</span>
+                        <button class="add-btn" onclick="addToCart('Pakhala Bhata', 80, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rasabali -->
+            <div class="menu-card" data-category="sweets">
+                <div class="menu-img-container">
+                    <span class="badge badge-popular">Signature</span>
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500&q=80" alt="Rasabali">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🍰 Odia Sweet</span>
+                    <h3>Rasabali</h3>
+                    <p>Soft cottage cheese dumplings soaked in thickened sweet milk sauce</p>
+                    <div class="menu-card-footer">
+                        <span class="price">100</span>
+                        <button class="add-btn" onclick="addToCart('Rasabali', 100, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chhena Poda -->
+            <div class="menu-card" data-category="sweets">
+                <div class="menu-img-container">
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=80" alt="Chhena Poda">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🍮 Baked Dessert</span>
+                    <h3>Chhena Poda</h3>
+                    <p>Baked cheese dessert with caramelized sugar - a renowned Odia specialty</p>
+                    <div class="menu-card-footer">
+                        <span class="price">90</span>
+                        <button class="add-btn" onclick="addToCart('Chhena Poda', 90, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prawns Malai Curry -->
+            <div class="menu-card" data-category="nonveg">
+                <div class="menu-img-container">
+                    <span class="badge badge-popular">Premium</span>
+                    <span class="badge badge-spicy">Non-Veg</span>
+                    <img src="https://images.unsplash.com/photo-1625943553852-781c6dd46faa?w=500&q=80" alt="Prawns Malai Curry">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🍤 Coastal Delicacy</span>
+                    <h3>Prawns Malai Curry</h3>
+                    <p>Succulent prawns cooked in rich coconut milk gravy with traditional spices</p>
+                    <div class="menu-card-footer">
+                        <span class="price">250</span>
+                        <button class="add-btn" onclick="addToCart('Prawns Malai Curry', 250, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Machha Bhaja -->
+            <div class="menu-card" data-category="nonveg">
+                <div class="menu-img-container">
+                    <span class="badge badge-spicy">Non-Veg</span>
+                    <img src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=500&q=80" alt="Machha Bhaja">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🐟 Fish Fry</span>
+                    <h3>Machha Bhaja</h3>
+                    <p>Crispy fried fish marinated in traditional Odia spices - coastal specialty</p>
+                    <div class="menu-card-footer">
+                        <span class="price">180</span>
+                        <button class="add-btn" onclick="addToCart('Machha Bhaja', 180, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vegetable Ghansi -->
+            <div class="menu-card" data-category="veg">
+                <div class="menu-img-container">
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500&q=80" alt="Vegetable Ghansi">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🥗 Veg Curry</span>
+                    <h3>Vegetable Ghansi</h3>
+                    <p>Traditional mixed vegetable curry with coconut and mustard paste</p>
+                    <div class="menu-card-footer">
+                        <span class="price">140</span>
+                        <button class="add-btn" onclick="addToCart('Vegetable Ghansi', 140, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mitha Boondi -->
+            <div class="menu-card" data-category="sweets">
+                <div class="menu-img-container">
+                    <span class="badge badge-veg">Veg</span>
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Mitha Boondi">
+                </div>
+                <div class="menu-card-content">
+                    <span class="dish-type">🍬 Sweet Snack</span>
+                    <h3>Mitha Boondi</h3>
+                    <p>Sweet gram flour droplets soaked in fragrant sugar syrup</p>
+                    <div class="menu-card-footer">
+                        <span class="price">70</span>
+                        <button class="add-btn" onclick="addToCart('Mitha Boondi', 70, this)">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <h2 class="section-title">Gallery</h2>
+        <p class="section-subtitle">Savor the visuals of our delicious preparations</p>
+        <div class="divider"></div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=500&q=80" alt="Odia Thali">
+                <div class="gallery-overlay">
+                    <h4>Odia Thali</h4>
+                    <p>Complete traditional meal</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" alt="Curry Dishes">
+                <div class="gallery-overlay">
+                    <h4>Curry Dishes</h4>
+                    <p>Rich and flavorful</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80" alt="Food Plating">
+                <div class="gallery-overlay">
+                    <h4>Food Plating</h4>
+                    <p>Artistic presentation</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500&q=80" alt="Sweets">
+                <div class="gallery-overlay">
+                    <h4>Odia Sweets</h4>
+                    <p>Delicious desserts</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">Real reviews from food lovers</p>
+        <div class="divider"></div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Customer" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>Priya Das</h4>
+                        <div class="testimonial-rating">★★★★★</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">"The best Dalma I've ever had! Reminds me of my grandmother's cooking. Truly authentic Odia flavors!"</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Customer" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>Rajesh Kumar</h4>
+                        <div class="testimonial-rating">★★★★★</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">"Prawns Malai Curry is absolutely divine! Fresh ingredients and perfect spices. Highly recommended!"</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Customer" class="testimonial-avatar">
+                    <div class="testimonial-info">
+                        <h4>Anita Mohanty</h4>
+                        <div class="testimonial-rating">★★★★★</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">"Chhena Poda is out of this world! Best quality and taste. My family loves it!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2 class="section-title" style="color: white;">Stay Updated</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">Subscribe for special offers and new dish updates</p>
+        <div class="divider" style="background: white;"></div>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Visit Us</h2>
+        <p class="section-subtitle">We'd love to serve you</p>
+        <div class="divider"></div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Rasulgarh, Bhubaneswar, Odisha - 751010</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+91 98765 43210</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕐</div>
+                    <div>
+                        <h4>Opening Hours</h4>
+                        <p>Monday - Sunday: 11:00 AM - 10:00 PM</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@pritiskitchen.in</p>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80" alt="Restaurant Location">
+                <div class="map-overlay">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Priti's Kitchen, Rasulgarh</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">Priti'<span>s</span> Kitchen</div>
+                <p>Authentic Odia Cuisine in the heart of Bhubaneswar. Bringing traditional flavors to your table since 2019.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">© 2026 Priti's Kitchen. All rights reserved. Made with ❤️ in Odisha</p>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal" onclick="closeSearchOutside(event)">
+        <div class="search-box">
+            <i class="fas fa-search" style="color: #666;"></i>
+            <input type="text" id="searchInput" placeholder="Search dishes..." oninput="searchMenu(this.value)">
+            <button onclick="toggleSearch()"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message" id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+                scrollTop.classList.add('show');
+            } else {
+                nav.classList.remove('scrolled');
+                scrollTop.classList.remove('show');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Search
+        function toggleSearch() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                document.getElementById('searchInput').focus();
+            }
+        }
+
+        function closeSearchOutside(e) {
+            if (e.target.classList.contains('search-modal')) {
+                toggleSearch();
+            }
+        }
+
+        function searchMenu(query) {
+            const cards = document.querySelectorAll('.menu-card');
+            query = query.toLowerCase();
+            cards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                if (name.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Cart functionality
+        let cartCount = 0;
+
+        function addToCart(name, price, btn) {
+            cartCount++;
+            document.getElementById('cartCount').textContent = cartCount;
+            btn.classList.add('added');
+            btn.innerHTML = '<i class="fas fa-check"></i> Added';
+            showToast(`${name} added to cart!`);
+        }
+
+        function toggleCart() {
+            showToast(`You have ${cartCount} items in cart`);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Filter menu
+        function filterMenu(category) {
+            const cards = document.querySelectorAll('.menu-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                const cat = card.dataset.category;
+                if (category === 'all' || cat === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Newsletter
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast('Thanks for subscribing!');
+            e.target.reset();
+        }
+
+        // Animated counters
+        const counters = document.querySelectorAll('.stat-number');
+        let countersStarted = false;
+
+        function startCounters() {
+            if (countersStarted) return;
+            countersStarted = true;
+
+            counters.forEach(counter => {
+                const target = parseFloat(counter.dataset.target);
+                const isDecimal = target % 1 !== 0;
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = isDecimal ? target.toFixed(1) : target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // Start counters when stats bar is visible
+        const statsBar = document.querySelector('.stats-bar');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounters();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsObserver.observe(statsBar);
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelector('.nav-links')?.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
